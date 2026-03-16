@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 scriptdir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-
+url="https://archive.org/download/nova-launcher-6.2.19/NovaLauncher_6.2.19.apk"
 cleanup() {
   rm -f "$scriptdir/launcher.apk"
 }
@@ -25,25 +25,17 @@ echo "Turns your Sunmi M2 into an actually usable device with a good launcher (t
 echo "I called it Moonmi because Moonmi escapes Sunmi's launcher (installs Nova Launcher, Moonmi is not a launcher)"
 echo
 echo "Performing dependency check..."
-depcheck adb
+depcheck adb || exit 1
 
 echo
 echo "Fetching launcher..."
 if command -v wget >/dev/null 2>&1; then
    echo "Downloading with wget..."
-   wget -q -O "$scriptdir/launcher.apk" https://archive.org/download/nova-launcher-6.2.19/NovaLauncher_6.2.19.apk --show-progress
-   if [[ ! -f "$scriptdir/launcher.apk" ]]; then
-     echo "Failed to fetch the launcher."
-     exit 1
-   fi
+   wget -q -O "$scriptdir/launcher.apk" "$url" --show-progress
 elif command -v curl >/dev/null 2>&1; then
    echo "wget is not installed. Falling back to curl."
    echo "Downloading with curl..."
-   curl -L -o "$scriptdir/launcher.apk" https://archive.org/download/nova-launcher-6.2.19/NovaLauncher_6.2.19.apk
-   if [[ ! -f "$scriptdir/launcher.apk" ]]; then
-     echo "Failed to fetch the launcher."
-     exit 1
-   fi
+   curl -L -o "$scriptdir/launcher.apk" "$url"
 else
    echo "Neither wget nor curl are installed. Exiting."
    exit 1
@@ -51,14 +43,10 @@ fi
 
 echo
 echo "Waiting for ADB device... (Device must be in Android, not fastboot, recovery, etc.)"
-until adb wait-for-device; do sleep 1; done
+adb wait-for-device
 echo "Found ADB device."
 echo "Installing Nova Launcher..."
 adb install "$scriptdir/launcher.apk"
-if [[ $? -ne 0 ]]; then
-  echo "Failed to install the launcher."
-  exit 1
-fi
 echo "Install successful."
 echo "Disabling existing launcher..."
 adb shell pm disable-user --user 0 com.woyou.launcher
