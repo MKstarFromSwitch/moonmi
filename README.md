@@ -1,12 +1,13 @@
 # Moonmi
 A script that escapes the standard launcher on the Sunmi M2 (I don't have other Sunmi's, no testing for anything other than the M2)
+<img width="362" height="676" alt="image" src="https://github.com/user-attachments/assets/1d429d98-8017-47a9-9065-83ed3e6609ff" />
+
 
 ## Features
    - Disables the regular Sunmi Launcher to prevent it returning on reboot
    - Installs Nova Launcher to replace it
    - Basically unlocks your Sunmi's launcher
    - The Sunmi launcher is: com.woyou.launcher, and the Nova Launcher version is 6.2.19.
-
 
 ## Requirements
  - A working Linux system with ```bash```
