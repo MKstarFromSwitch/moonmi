@@ -5,7 +5,7 @@ scriptdir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 cleanup() {
   rm -f "$scriptdir/launcher.apk"
 }
-trap cleanup EXIT SIGINT RETURN
+trap cleanup EXIT SIGINT
 
 depcheck() {
    local cmd=
