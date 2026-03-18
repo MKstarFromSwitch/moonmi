@@ -46,11 +46,10 @@ echo "Found ADB device."
 echo "Installing Nova Launcher..."
 adb install "$scriptdir/launcher.apk"
 echo "Install successful."
-echo "Disabling existing launcher..."
 echo "Disabling Sunmi Launcher..."
 adb shell pm disable-user --user 0 com.woyou.launcher
+adb shell input keyevent 3
 echo
 echo "Install successful."
-echo "If you are in a black screen with the navigation bar showing, press the home button (the one that looks like an O) once."
 echo "Enjoy your Moonmi M2!"
 exit 0
